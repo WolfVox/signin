@@ -132,13 +132,13 @@
         localStorage.setItem('wv_user', JSON.stringify(userData));
         
         // Redirect back to the main page
-        window.location.href = 'indexd.html'; 
+        window.location.href = '/'; 
     }
 
     // Auto-redirect if already logged in
     window.onload = () => {
         if(localStorage.getItem('wv_user')) {
-            window.location.href = 'indexd.html';
+            window.location.href = '/';
         }
     }
 </script>
