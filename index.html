@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | WolfVox™</title>
+    <link rel="icon" type="image/x-icon" href="https://github.com/WolfVox/wolfvox.github.io/blob/main/WolfVoxLogo.png?raw=true">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
+    <style>
+        :root {
+            --bg: #000000;
+            --header: #000000;
+            --card-bg: #000000;
+            --border: #2d2d30;
+            --accent: #7a6cff;
+            --text-main: #eeeeee;
+            --text-dim: #a1a1aa;
+            --error: #ff4d4d;
+        }
+
+        * { box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; transition: all 0.15s ease; }
+        
+        body { 
+            background-color: var(--bg); 
+            background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 60px 60px;
+            color: var(--text-main); 
+            margin: 0; 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Topbar Styling Matches your Main Page */
+        nav {
+            display: flex; align-items: center; gap: 20px;
+            padding: 12px 30px; background: var(--header); border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .login-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .login-card h2 { margin-bottom: 10px; font-size: 24px; }
+        .login-card p { color: var(--text-dim); font-size: 14px; margin-bottom: 30px; }
+
+        input { 
+            width: 100%; 
+            padding: 12px; 
+            margin: 10px 0; 
+            background: #000; 
+            border: 1px solid var(--border); 
+            color: white; 
+            border-radius: 6px; 
+        }
+
+        input:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .back-link:hover { color: var(--accent); }
+
+        footer { text-align: center; padding: 20px; color: var(--text-dim); font-size: 12px; border-top: 1px solid var(--border); }
+    </style>
+</head>
+<body>
+
+<nav>
+    <img src="https://github.com/WolfVox/wolfvox.github.io/blob/main/WolfVoxLogo.png?raw=true" alt="?" height="30px" width="30px" onclick="location.href='index.html'" style="cursor:pointer;">
+    <h2 style="font-size: 18px; margin:0; cursor:pointer;" onclick="location.href='index.html'">Wolf<span style="color:var(--accent)">Vox</span></h2>
+</nav>
+
+<div class="login-container">
+    <div class="login-card">
+        <img src="https://github.com/WolfVox/wolfvox.github.io/blob/main/WolfVoxLogo.png?raw=true" height="50" style="margin-bottom: 20px;">
+        <h2>Welcome Back</h2>
+        <p>Sign in to your WolfVox account to continue.</p>
+
+        <div id="g_id_onload"
+             data-client_id="116311894928-qararv9qqqhtjomb2nbljfbrgrho9uft.apps.googleusercontent.com"
+             data-context="signin"
+             data-ux_mode="popup"
+             data-callback="handleGoogleLogin"
+             data-auto_prompt="false">
+        </div>
+        <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="filled_black" data-text="continue_with" data-size="large" data-logo_alignment="left" style="display: flex; justify-content: center;"></div>
+
+        <div style="margin:25px 0; font-size:11px; color:var(--text-dim); letter-spacing: 1px;">OR STAFF LOGIN</div>
+        
+        <input type="email" placeholder="Email Address" disabled title="Staff login coming soon">
+        <input type="password" placeholder="Password" disabled title="Staff login coming soon">
+        
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+    </div>
+</div>
+
+<script>
+    function handleGoogleLogin(response) {
+        // Decode the JWT from Google
+        const payload = JSON.parse(atob(response.credential.split('.')[1]));
+        
+        // Save user to LocalStorage (same as your main page)
+        const userData = {
+            name: payload.name,
+            email: payload.email,
+            img: payload.picture
+        };
+        
+        localStorage.setItem('wv_user', JSON.stringify(userData));
+        
+        // Redirect back to the main page
+        window.location.href = 'indexd.html'; 
+    }
+
+    // Auto-redirect if already logged in
+    window.onload = () => {
+        if(localStorage.getItem('wv_user')) {
+            window.location.href = 'indexd.html';
+        }
+    }
+</script>
+
+</body>
+</html>
