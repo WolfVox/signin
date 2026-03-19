@@ -3,145 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In | WolfVox™</title>
-    <link rel="icon" type="image/x-icon" href="https://github.com/WolfVox/wolfvox.github.io/blob/main/WolfVoxLogo.png?raw=true">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    
+    <title>WolfVox | Cloud Hosting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #000000;
-            --header: #000000;
-            --card-bg: #000000;
-            --border: #2d2d30;
-            --accent: #7a6cff;
-            --text-main: #eeeeee;
-            --text-dim: #a1a1aa;
-            --error: #ff4d4d;
+        body { font-family: 'Inter', sans-serif; background-color: #000000; color: #ffffff; }
+        .glass-card { 
+            background: rgba(255, 255, 255, 0.03); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            transition: border 0.3s ease;
         }
-
-        * { box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; transition: all 0.15s ease; }
-        
-        body { 
-            background-color: var(--bg); 
-            background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
-            background-size: 60px 60px;
-            color: var(--text-main); 
-            margin: 0; 
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+        .glass-card:hover { border: 1px solid rgba(255, 255, 255, 0.3); }
+        .gradient-text {
+            background: linear-gradient(to right, #ffffff, #a1a1a1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-
-        /* Topbar Styling Matches your Main Page */
-        nav {
-            display: flex; align-items: center; gap: 20px;
-            padding: 12px 30px; background: var(--header); border-bottom: 1px solid var(--border);
-            position: sticky; top: 0; z-index: 1000;
-        }
-
-        .login-container {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .login-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            padding: 40px;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .login-card h2 { margin-bottom: 10px; font-size: 24px; }
-        .login-card p { color: var(--text-dim); font-size: 14px; margin-bottom: 30px; }
-
-        input { 
-            width: 100%; 
-            padding: 12px; 
-            margin: 10px 0; 
-            background: #000; 
-            border: 1px solid var(--border); 
-            color: white; 
-            border-radius: 6px; 
-        }
-
-        input:disabled { opacity: 0.5; cursor: not-allowed; }
-
-        .back-link {
-            display: block;
-            margin-top: 20px;
-            color: var(--text-dim);
-            text-decoration: none;
-            font-size: 13px;
-        }
-        .back-link:hover { color: var(--accent); }
-
-        footer { text-align: center; padding: 20px; color: var(--text-dim); font-size: 12px; border-top: 1px solid var(--border); }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
-<nav>
-    <img src="https://github.com/WolfVox/wolfvox.github.io/blob/main/WolfVoxLogo.png?raw=true" alt="?" height="30px" width="30px" onclick="location.href='index.html'" style="cursor:pointer;">
-    <h2 style="font-size: 18px; margin:0; cursor:pointer;" onclick="location.href='index.html'">Wolf<span style="color:var(--accent)">Vox</span></h2>
-</nav>
-
-<div class="login-container">
-    <div class="login-card">
-        <img src="https://github.com/WolfVox/wolfvox.github.io/blob/main/WolfVoxLogo.png?raw=true" height="50" style="margin-bottom: 20px;">
-        <h2>Welcome Back</h2>
-        <p>Sign in to your WolfVox account to continue.</p>
-
-        <div id="g_id_onload"
-             data-client_id="116311894928-qararv9qqqhtjomb2nbljfbrgrho9uft.apps.googleusercontent.com"
-             data-context="signin"
-             data-ux_mode="popup"
-             data-callback="handleGoogleLogin"
-             data-auto_prompt="false">
+    <nav class="flex items-center justify-between px-8 py-4 border-b border-white/10 sticky top-0 bg-black/50 backdrop-blur-md z-50">
+        <div class="flex items-center gap-8">
+            <h1 class="text-xl font-bold tracking-tighter cursor-pointer" onclick="location.href='index.html'">WOLF<span class="text-gray-500">VOX</span></h1>
+            <div class="hidden md:flex gap-6 text-sm text-gray-400">
+                <a href="#" class="hover:text-white transition">Features</a>
+                <a href="#" class="hover:text-white transition">Docs</a>
+                <a href="#" class="hover:text-white transition">Pricing</a>
+            </div>
         </div>
-        <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="filled_black" data-text="continue_with" data-size="large" data-logo_alignment="left" style="display: flex; justify-content: center;"></div>
+        <div class="flex items-center gap-4">
+            <!-- Added id="signin-btn" -->
+            <button id="signin-btn" class="text-sm text-gray-400 hover:text-white">Sign In</button>
+            <!-- Added id="nav-get-started" -->
+            <button id="nav-get-started" class="bg-white text-black px-4 py-1.5 rounded-full text-sm font-medium hover:bg-gray-200 transition">
+                Get Started
+            </button>
+        </div>
+    </nav>
 
-        <div style="margin:25px 0; font-size:11px; color:var(--text-dim); letter-spacing: 1px;">OR STAFF LOGIN</div>
-        
-        <input type="email" placeholder="Email Address" disabled title="Staff login coming soon">
-        <input type="password" placeholder="Password" disabled title="Staff login coming soon">
-        
-        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
-    </div>
-</div>
+    <main class="max-w-6xl mx-auto px-6 pt-24 pb-12">
+        <div class="text-center mb-20">
+            <span class="px-3 py-1 rounded-full border border-white/20 text-[10px] uppercase tracking-widest text-gray-400">
+                v1.0 is now live
+            </span>
+            <h2 class="text-5xl md:text-7xl font-semibold mt-6 mb-6 gradient-text tracking-tight">
+                Deploy in seconds. <br>Persistent by default.
+            </h2>
+            <p class="text-gray-400 text-lg max-w-2xl mx-auto mb-10">
+                The developer-first cloud for static and dynamic sites. Powered by Supabase to ensure your data never vanishes, even on free tiers.
+            </p>
+            <div class="flex justify-center gap-4">
+                <!-- Added id="start-btn" -->
+                <button id="start-btn" class="bg-white text-black px-8 py-3 rounded-md font-medium hover:invert transition">
+                    New Project
+                </button>
+                <button class="bg-transparent border border-white/20 px-8 py-3 rounded-md font-medium hover:bg-white/5 transition">
+                    Read the Docs
+                </button>
+            </div>
+        </div>
+
+        <section class="grid md:grid-cols-3 gap-6">
+            <div class="glass-card p-6 rounded-xl col-span-2">
+                <h3 class="text-sm font-semibold text-gray-300 mb-4 uppercase tracking-wider">Dynamic Routing</h3>
+                <div class="bg-black border border-white/10 p-4 rounded-lg font-mono text-sm">
+                    <span class="text-blue-400">https://</span>wolfvox.onrender.com/<span class="text-green-400">:username</span>/<span class="text-purple-400">:repo</span>
+                </div>
+                <p class="mt-4 text-xs text-gray-500">WolfVox automatically routes traffic to your Supabase-stored assets based on the URL structure.</p>
+            </div>
+
+            <div class="glass-card p-6 rounded-xl">
+                <h3 class="text-sm font-semibold text-gray-300 mb-4 uppercase tracking-wider">Infrastructure</h3>
+                <ul class="space-y-3">
+                    <li class="flex items-center gap-2 text-sm text-gray-400">
+                        <div class="w-2 h-2 rounded-full bg-green-500"></div> Supabase Database Connected
+                    </li>
+                    <li class="flex items-center gap-2 text-sm text-gray-400">
+                        <div class="w-2 h-2 rounded-full bg-green-500"></div> S3 Asset Bucket Ready
+                    </li>
+                    <li class="flex items-center gap-2 text-sm text-gray-400">
+                        <div class="w-2 h-2 rounded-full bg-yellow-500"></div> Render Proxy Active
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="mt-24 grid md:grid-cols-3 gap-12 text-center md:text-left">
+            <div>
+                <h4 class="text-white font-semibold mb-2">Supabase Sync</h4>
+                <p class="text-sm text-gray-500">Your site files are stored in PostgreSQL/Storage, making them immune to ephemeral disk resets.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold mb-2">Custom Subdomains</h4>
+                <p class="text-sm text-gray-500">Map your own domain or use our clean wolfvox.io paths for easy sharing.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold mb-2">Zero Config</h4>
+                <p class="text-sm text-gray-500">Just push your code. We handle the MIME types, headers, and global delivery.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="mt-32 border-t border-white/5 py-12 text-center">
+        <p class="text-xs text-gray-600">© 2026 WolfVox. Built for the modern web.</p>
+    </footer>
 
 <script>
-    function handleGoogleLogin(response) {
-        // Decode the JWT from Google
-        const payload = JSON.parse(atob(response.credential.split('.')[1]));
-        
-        // Save user to LocalStorage (same as your main page)
-        const userData = {
-            name: payload.name,
-            email: payload.email,
-            img: payload.picture
-        };
-        
-        localStorage.setItem('wv_user', JSON.stringify(userData));
-        
-        // Redirect back to the main page
-        window.location.href = '/'; 
+    // Function to handle redirection logic
+    function navigateToApp() {
+        const user = localStorage.getItem('wv_user');
+        if (user) {
+            window.location.href = 'create.html'; 
+        } else {
+            window.location.href = 'login.html'; 
+        }
     }
 
-    // Auto-redirect if already logged in
+    // Attach listeners to all "action" buttons
+    document.getElementById('start-btn').onclick = navigateToApp;
+    document.getElementById('nav-get-started').onclick = navigateToApp;
+    document.getElementById('signin-btn').onclick = function() {
+        window.location.href = 'login.html';
+    };
+
+    // Optional: UI update if already logged in
     window.onload = () => {
-        if(localStorage.getItem('wv_user')) {
-            window.location.href = '/';
+        const user = JSON.parse(localStorage.getItem('wv_user'));
+        if(user) {
+            document.getElementById('signin-btn').innerText = user.name.split(' ')[0];
+            document.getElementById('nav-get-started').innerText = "Console";
         }
     }
 </script>
-
 </body>
 </html>
