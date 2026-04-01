@@ -195,7 +195,6 @@
     function toggleMenu() {
         const menu = document.getElementById('mobileMenu');
         const spans = document.querySelectorAll('.menu-toggle span');
-        
         menu.classList.toggle('active');
         
         if (menu.classList.contains('active')) {
@@ -213,24 +212,90 @@
     function handleGoogleLogin(response) {
         try {
             const payload = JSON.parse(atob(response.credential.split('.')[1]));
+            
+            // Validate that we actually got data from Google
+            if (!payload || !payload.email) {
+                throw new Error("Invalid Google Payload");
+            }
+
             const userData = {
                 name: payload.name,
                 email: payload.email,
-                img: payload.picture
+                img: payload.picture,
+                timestamp: new Date().getTime() // Track when they logged in
             };
+
             localStorage.setItem('wv_user', JSON.stringify(userData));
-            window.location.href = '/redirect'; 
+            checkAuth(); // Refresh UI immediately
         } catch (e) {
-            console.error("Login failed", e);
+            console.error("Login failed:", e);
+            logout(); // Clear everything if something went wrong
         }
     }
 
-    // Auth Check
-    window.onload = () => {
-        if(localStorage.getItem('wv_user')) {
-            window.location.href = '/redirect';
+    function logout() {
+        localStorage.removeItem('wv_user');
+        // If we're not already on the signin page, we might want to go there
+        // But for now, just refresh to clear the UI state
+        location.reload();
+    }
+
+    // Check Auth State and Update UI
+    function checkAuth() {
+        const rawData = localStorage.getItem('wv_user');
+        let user = null;
+
+        if (rawData) {
+            try {
+                user = JSON.parse(rawData);
+                
+                // CRITICAL FIX: If the object exists but is missing data, it's a glitch.
+                if (!user || !user.email || !user.name) {
+                    console.warn("Glitch detected in user data. Logging out...");
+                    logout();
+                    return;
+                }
+            } catch (e) {
+                console.error("Corrupt user data detected. Clearing...");
+                logout();
+                return;
+            }
+        }
+
+        const signInBtn = document.getElementById('signInBtn');
+        const userProfile = document.getElementById('userProfile');
+
+        if (user) {
+            // Update Navigation UI
+            if(signInBtn) signInBtn.style.display = 'none';
+            if(userProfile) {
+                userProfile.style.display = 'flex';
+                const nameEl = document.getElementById('userName');
+                const imgEl = document.getElementById('userImg');
+                if(nameEl) nameEl.innerText = user.name;
+                if(imgEl) imgEl.src = user.img;
+            }
+            
+            // Transform the Login Card into a Profile Card
+            const loginCard = document.querySelector('.login-card');
+            if (loginCard) {
+                loginCard.innerHTML = `
+                    <div style="padding: 10px;">
+                        <img src="${user.img}" height="80" style="border-radius: 50%; margin-bottom: 20px; border: 2px solid var(--accent); box-shadow: 0 0 15px var(--accent);">
+                        <h2 style="margin: 0;">Welcome, ${user.name.split(' ')[0]}</h2>
+                        <p style="margin-bottom: 25px;">${user.email}</p>
+                        <button onclick="logout()" class="render-btn" style="width: 100%; margin-bottom: 15px;">
+                            <i class="fa-solid fa-power-off"></i> Sign Out
+                        </button>
+                        <a href="/" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+                    </div>
+                `;
+            }
         }
     }
+
+    // Run check when page finishes loading
+    window.addEventListener('DOMContentLoaded', checkAuth);
 </script>
 
 </body>
