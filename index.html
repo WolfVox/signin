@@ -210,7 +210,7 @@
     }
 
     // Google Login Callback
-    function handleGoogleLogin(response) {
+function handleGoogleLogin(response) {
         try {
             const payload = JSON.parse(atob(response.credential.split('.')[1]));
             const userData = {
@@ -218,8 +218,12 @@
                 email: payload.email,
                 img: payload.picture
             };
+            
+            // 1. Save data to localStorage
             localStorage.setItem('wv_user', JSON.stringify(userData));
-            window.location.href = '/'; 
+            
+            // 2. Redirect to the main domain
+            window.location.href = 'https://wolfvox.me'; 
         } catch (e) {
             console.error("Login failed", e);
         }
@@ -228,7 +232,8 @@
     // Auth Check
     window.onload = () => {
         if(localStorage.getItem('wv_user')) {
-            window.location.href = '/';
+            // If already logged in, send to main domain immediately
+            window.location.href = 'https://wolfvox.me';
         }
     }
 </script>
